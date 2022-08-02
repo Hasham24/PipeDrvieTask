@@ -47,7 +47,7 @@ const Activities = ({ navigation, route }: ActivitiesScreenTypes) => {
                     ListEmptyComponent={() => !isFetching ? <EmptyListText title={`Currently you have't any activity`} /> : null}
                     ListFooterComponent={() => isFetching ? <ActivityIndicator size={'small'} color={colors.blue} /> :
                         (persons.length % LIMIT == 0 && data?.data?.length === LIMIT && persons.length > 0) ? <CircleButton onPress={() => setStart(start + LIMIT)} /> :
-                            persons[index]?.activities ? <FooterListText title='No more activites' /> : null
+                            persons[index]?.activities ? <FooterListText title={netInfo?.isConnected?'No more activites': 'No internet connection'} /> : null
                     }
                 />
             </View>

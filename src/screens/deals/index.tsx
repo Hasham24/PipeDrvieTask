@@ -46,7 +46,7 @@ const Deals = ({ navigation, route }: DealsScreenTypes) => {
                     ListEmptyComponent={() => !isFetching ? <EmptyListText title={`Currently you have't any deal`} /> : null}
                     ListFooterComponent={() => isFetching ? <ActivityIndicator size={'small'} color={colors.blue} /> :
                         (persons.length % LIMIT == 0 && data?.data?.length === LIMIT && persons.length) ? <CircleButton onPress={() => setStart(start + LIMIT)} /> :
-                        persons[index]?.deals? <FooterListText title='No more activites' />:null
+                        persons[index]?.deals? <FooterListText title={netInfo?.isConnected?'No more activites':'No internet connection'} />:null
                     }
                 />
             </View>

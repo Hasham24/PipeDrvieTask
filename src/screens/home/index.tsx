@@ -48,7 +48,7 @@ const Home = ({ navigation }: NativeStackScreenProps<any>) => {
                     keyExtractor={(_, index: number) => String(index)}
                     ListFooterComponent={() => isFetching ? <ActivityIndicator size={'small'} color={colors.blue} /> :
                         (persons.length % LIMIT === 0 && data?.data?.length === LIMIT && persons.length) ? <CircleButton onPress={() => setStart(start + LIMIT)} /> :
-                            persons.length > 0 ? <FooterListText title='No more Persons' /> : null
+                            persons.length > 0 ? <FooterListText title={netInfo?.isConnected?'No more Persons':'No internet connection'} /> : null
                     }
                 />
             </View>
