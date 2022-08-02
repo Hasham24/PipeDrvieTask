@@ -8,7 +8,12 @@ import { width } from 'react-native-dimension';
 import Feather from 'react-native-vector-icons/Feather';
 import colors from '../../utils/colors';
 import styles from './styles';
-const PersonDetsils = ({ navigation, route }: NativeStackScreenProps<any>) => {
+type PersonDetsilsScreenTypes = NativeStackScreenProps<{
+    "PERSONDETAILS": {
+        person: object
+    }
+}, "PERSONDETAILS">
+const PersonDetails = ({ navigation, route }: NativeStackScreenProps<any>) => {
    
     const { person } = route?.params ?? {}
 
@@ -60,4 +65,4 @@ const PersonDetsils = ({ navigation, route }: NativeStackScreenProps<any>) => {
         </ScreenWrapper>
     );
 };
-export default PersonDetsils;
+export default PersonDetails;

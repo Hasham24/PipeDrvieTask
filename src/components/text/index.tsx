@@ -13,3 +13,8 @@ export const EmptyListText = ({ title = '', textStyle = {}, textProps = {}, }: P
     <Text style={[styles.text, textStyle]} {...textProps}>{title}</Text>
   );
 };
+export const FooterListText = ({ title = '', textStyle = {}, textProps = {}, }: Props) => {
+  return (
+    <Text style={[styles.footertext, textStyle]} {...textProps}>{title}</Text>
+  );
+};

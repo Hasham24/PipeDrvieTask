@@ -1,8 +1,8 @@
 import { BaseUrl, Token } from './config';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { setPersons } from '../store/slices/person/slice';
+import { setPersons } from '../store/slices/person';
 export const persons = createApi({
-  reducerPath: 'persons',
+  reducerPath: 'personsApi',
   baseQuery: fetchBaseQuery({
     baseUrl: BaseUrl,
 
@@ -16,11 +16,9 @@ export const persons = createApi({
         };
       },
       async onQueryStarted(arg, { dispatch, getState, queryFulfilled }) {
-        try {
-          const response = await queryFulfilled
+        const response = await queryFulfilled
+        if (response?.data?.data) {
           dispatch(setPersons({ data: response?.data?.data, start: arg?.start }))
-        } catch (err) {
-          console.log('err', err);
         }
       },
     }),

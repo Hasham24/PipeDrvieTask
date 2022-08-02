@@ -9,6 +9,14 @@ const styles = StyleSheet.create({
     marginTop: height(35),
     textAlign: 'center'
   },
+
+  // footer list text
+  footertext:{
+    color: colors.slateGray,
+    fontSize: width(3.5),
+    marginVertical: height(2),
+    textAlign: 'center'
+  }
 });
 
 export default styles;
