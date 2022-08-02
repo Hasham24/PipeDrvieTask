@@ -25,7 +25,7 @@ const PersonDetails = ({ navigation, route }: NativeStackScreenProps<any>) => {
                 <ScrollView showsVerticalScrollIndicator={false}
                     contentContainerStyle={styles.scrollView}
                 >
-                    {person?.picture_id?.pictures ? <Image source={{ uri: person?.picture_id?.pictures?.['512'] }}
+                    {person?.picture_id?.pictures ? <Image source={{ uri: person?.picture_id?.pictures?.['128'] }}
                         style={styles.profileImage} /> : <Feather name='user' size={width(15)} />}
                     <Text style={styles.labelText}>Title : <Text style={styles.infoText}>{person?.name}</Text></Text>
                     <Text style={styles.labelText}>Email : <Text style={styles.infoText}>{person?.primary_email ?? 'None'}</Text></Text>

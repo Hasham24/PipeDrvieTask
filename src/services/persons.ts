@@ -6,7 +6,6 @@ export const persons = createApi({
   reducerPath: 'personsApi',
   baseQuery: fetchBaseQuery({
     baseUrl: BaseUrl,
-
   }),
   endpoints: (builder) => ({
     getPersons: builder.query<any, { start: number }>({

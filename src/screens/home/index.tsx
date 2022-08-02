@@ -11,15 +11,16 @@ import { LIMIT } from '../../utils/constants';
 import { FooterListText } from '../../components/text';
 import { width } from 'react-native-dimension';
 import { useSelector } from 'react-redux';
+import { useNetInfo } from "@react-native-community/netinfo";
 import Octicons from 'react-native-vector-icons/Octicons';
 import Feather from 'react-native-vector-icons/Feather';
 import colors from '../../utils/colors';
 import styles from './styles';
 const Home = ({ navigation }: NativeStackScreenProps<any>) => {
+    const netInfo = useNetInfo();
     const [start, setStart] = useState(0);
-    const { data, isFetching } = useGetPersonsQuery({ start })
+    const { data, isFetching } = useGetPersonsQuery({ start }, { skip: !netInfo?.isConnected })
     const persons = useSelector(selectPersons)
-    
     const _renderPersons = ({ item, index }) => {
         const { name, picture_id: { pictures } } = item
         return (
@@ -47,7 +48,7 @@ const Home = ({ navigation }: NativeStackScreenProps<any>) => {
                     keyExtractor={(_, index: number) => String(index)}
                     ListFooterComponent={() => isFetching ? <ActivityIndicator size={'small'} color={colors.blue} /> :
                         (persons.length % LIMIT === 0 && data?.data?.length === LIMIT && persons.length) ? <CircleButton onPress={() => setStart(start + LIMIT)} /> :
-                            <FooterListText title='No more Persons' />
+                            persons.length > 0 ? <FooterListText title='No more Persons' /> : null
                     }
                 />
             </View>

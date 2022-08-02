@@ -4,14 +4,12 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { HomeScreen, PersonDetsilsScreen, ActivitiesScreen, DealsScreen } from '../screens';
 import { useNetInfo } from "@react-native-community/netinfo";
 import { useDispatch } from 'react-redux';
-import ScreenNames from './routes';
 import { removePerson } from '../store/slices/person';
+import ScreenNames from './routes';
 const Stack = createNativeStackNavigator();
 const Routes = () => {
   const disptach = useDispatch()
   const netInfo = useNetInfo();
-  console.log(netInfo?.isConnected);
-  
   useLayoutEffect(() => {
     if (netInfo?.isConnected) {
       disptach(removePerson())

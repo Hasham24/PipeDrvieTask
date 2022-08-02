@@ -7,6 +7,7 @@ import { useGetDealsQuery } from '../../services/persons';
 import { selectPersons } from '../../store/slices/person';
 import { useSelector } from 'react-redux';
 import { EmptyListText, FooterListText } from '../../components/text';
+import { useNetInfo } from "@react-native-community/netinfo";
 import { LIMIT } from '../../utils/constants';
 import colors from '../../utils/colors';
 import styles from './styles';
@@ -17,9 +18,10 @@ type DealsScreenTypes = NativeStackScreenProps<{
     }
 }, "DEALS">
 const Deals = ({ navigation, route }: DealsScreenTypes) => {
+    const netInfo = useNetInfo();
     const [start, setStart] = useState(0)
     const { id, index } = route?.params
-    const { data, isFetching } = useGetDealsQuery({ id, start })
+    const { data, isFetching } = useGetDealsQuery({ id, start }, { skip: !netInfo?.isConnected })
     const persons = useSelector(selectPersons)
     const _renderDeals = ({ item }) => {
         return (
@@ -44,7 +46,7 @@ const Deals = ({ navigation, route }: DealsScreenTypes) => {
                     ListEmptyComponent={() => !isFetching ? <EmptyListText title={`Currently you have't any deal`} /> : null}
                     ListFooterComponent={() => isFetching ? <ActivityIndicator size={'small'} color={colors.blue} /> :
                         (persons.length % LIMIT == 0 && data?.data?.length === LIMIT && persons.length) ? <CircleButton onPress={() => setStart(start + LIMIT)} /> :
-                            <FooterListText title='No more activites' />
+                        persons[index]?.deals? <FooterListText title='No more activites' />:null
                     }
                 />
             </View>

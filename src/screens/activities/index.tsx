@@ -6,6 +6,7 @@ import { useGetActivityQuery } from '../../services/persons';
 import { Header, CircleButton } from '../../components';
 import { selectPersons } from '../../store/slices/person';
 import { useSelector } from 'react-redux';
+import { useNetInfo } from "@react-native-community/netinfo";
 import { EmptyListText, FooterListText } from '../../components/text';
 import { LIMIT } from '../../utils/constants';
 import colors from '../../utils/colors';
@@ -18,9 +19,10 @@ type ActivitiesScreenTypes = NativeStackScreenProps<{
     }
 }, "ACTIVITIES">
 const Activities = ({ navigation, route }: ActivitiesScreenTypes) => {
+    const netInfo = useNetInfo();
     const [start, setStart] = useState(0)
     const { id, index } = route?.params
-    const { data, isFetching } = useGetActivityQuery({ id, start })
+    const { data, isFetching } = useGetActivityQuery({ id, start }, { skip: !netInfo?.isConnected })
     const persons = useSelector(selectPersons)
     const _renderActivites = ({ item }) => {
         return (
@@ -45,7 +47,7 @@ const Activities = ({ navigation, route }: ActivitiesScreenTypes) => {
                     ListEmptyComponent={() => !isFetching ? <EmptyListText title={`Currently you have't any activity`} /> : null}
                     ListFooterComponent={() => isFetching ? <ActivityIndicator size={'small'} color={colors.blue} /> :
                         (persons.length % LIMIT == 0 && data?.data?.length === LIMIT && persons.length > 0) ? <CircleButton onPress={() => setStart(start + LIMIT)} /> :
-                            <FooterListText title='No more activites' />
+                            persons[index]?.activities ? <FooterListText title='No more activites' /> : null
                     }
                 />
             </View>
