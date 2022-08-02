@@ -28,7 +28,7 @@ const Home = ({ navigation }: NativeStackScreenProps<any>) => {
                     <Feather name='user' size={width(10)} />}
                 <View style={styles.nameContainer}>
                     <Text style={styles.titleText}>{item?.name}</Text>
-                    <Octicons name='chevron-right' size={width(5)} />
+                    <Octicons name='chevron-right' size={width(5)} color={colors.black} />
                 </View>
             </TouchableOpacity>
         )

@@ -2,8 +2,8 @@ import React from 'react';
 import { View, Text, TextProps, TextStyle, TouchableOpacity, TouchableOpacityProps, ViewStyle } from 'react-native';
 import { width } from 'react-native-dimension'
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import colors from '../../utils/colors';
 import styles from './styles';
-
 // Component Props
 interface Props {
     onPress?: () => void;
@@ -27,7 +27,7 @@ const Header = ({
     return (
         <View style={[styles.container, containerStyle]}>
             {isBack ? <TouchableOpacity onPress={onPress}{...touchableOpacityProps}>
-                <AntDesign name='arrowleft' size={width(7)} />
+                <AntDesign name='arrowleft' size={width(7)} color={colors.black} />
             </TouchableOpacity> :
                 <View style={styles.emptyContainer} />
             }
