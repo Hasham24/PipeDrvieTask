@@ -42,12 +42,15 @@ const personSlice = createSlice({
             else
                 newPersons[index].deals = [...newPersons[index].deals, ...data]
             state.persons = newPersons
+        },
+        removePerson: (state) => {
+            state.persons = []
         }
     }
 
 })
 // Actions
-export const { setPersons, setPersonsActivities,setPersonsDeals } = personSlice.actions
+export const { setPersons, setPersonsActivities, setPersonsDeals, removePerson } = personSlice.actions
 // Reducer
 export const personSliceReducer = personSlice.reducer;
 // Selectors
