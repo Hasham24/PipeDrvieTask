@@ -17,7 +17,7 @@ export const persons = createApi({
         };
       },
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
-        const response = await queryFulfilled
+        const response = await queryFulfilled  
         const { data } = response?.data
         if (data) {
           dispatch(setPersons({ data: data, start: arg?.start }))

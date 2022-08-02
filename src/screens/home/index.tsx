@@ -19,7 +19,7 @@ const Home = ({ navigation }: NativeStackScreenProps<any>) => {
     const [start, setStart] = useState(0);
     const { data, isFetching } = useGetPersonsQuery({ start })
     const persons = useSelector(selectPersons)
-
+    
     const _renderPersons = ({ item, index }) => {
         const { name, picture_id: { pictures } } = item
         return (

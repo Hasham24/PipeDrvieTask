@@ -10,6 +10,8 @@ const Stack = createNativeStackNavigator();
 const Routes = () => {
   const disptach = useDispatch()
   const netInfo = useNetInfo();
+  console.log(netInfo?.isConnected);
+  
   useLayoutEffect(() => {
     if (netInfo?.isConnected) {
       disptach(removePerson())
