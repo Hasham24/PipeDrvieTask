@@ -1,20 +1,26 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { View, Text, FlatList, ActivityIndicator } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ScreenWrapper } from 'react-native-screen-wrapper';
-import { Header } from '../../components';
+import { Header,CircleButton } from '../../components';
 import { useGetDealsQuery } from '../../services/persons';
-import { EmptyListText } from '../../components/text';
+import { selectPersons } from '../../store/slices/person';
+import { useSelector } from 'react-redux';
+import { EmptyListText, FooterListText } from '../../components/text';
+import { LIMIT } from '../../utils/constants';
 import colors from '../../utils/colors';
 import styles from './styles';
 type DealsScreenTypes = NativeStackScreenProps<{
     "DEALS": {
         id: number
+        index:number
     }
 }, "DEALS">
 const Deals = ({ navigation, route }: DealsScreenTypes) => {
-    const { id } = route?.params
-    const { data, isLoading } = useGetDealsQuery({ id })
+    const [start, setStart] = useState(0)
+    const { id,index } = route?.params
+    const { data, isFetching } = useGetDealsQuery({ id,start })
+    const persons = useSelector(selectPersons)
     const _renderDeals = ({ item }) => {
         return (
             <View style={styles.dealListContainer}>
@@ -30,13 +36,16 @@ const Deals = ({ navigation, route }: DealsScreenTypes) => {
             <View style={styles.container}>
                 <Header title='Deals' onPress={navigation.goBack} />
                 <FlatList
-                    data={data?.data ?? []}
+                    data={persons[index]?.deals ?? []}
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={styles.contentContainer}
                     renderItem={_renderDeals}
                     keyExtractor={(item: null | object, index: number) => String(index)}
-                    ListFooterComponent={() => isLoading ? <ActivityIndicator size={'small'} color={colors.blue} /> : null}
-                    ListEmptyComponent={() => !isLoading ? <EmptyListText title={`Currently you have't any deal`} /> : null}
+                    ListEmptyComponent={() => !isFetching ? <EmptyListText title={`Currently you have't any deal`} /> : null}
+                    ListFooterComponent={() => isFetching ? <ActivityIndicator size={'small'} color={colors.blue} /> :
+                    (persons.length % LIMIT == 0 && data?.data?.length === LIMIT) ? <CircleButton onPress={() => setStart(start + LIMIT)} /> :
+                        <FooterListText title='No more activites' />
+                }
                 />
             </View>
         </ScreenWrapper>

@@ -11,11 +11,12 @@ import styles from './styles';
 type PersonDetsilsScreenTypes = NativeStackScreenProps<{
     "PERSONDETAILS": {
         person: object
+        index:number
     }
 }, "PERSONDETAILS">
 const PersonDetails = ({ navigation, route }: NativeStackScreenProps<any>) => {
    
-    const { person } = route?.params ?? {}
+    const { person,index } = route?.params ?? {}
 
     return (
         <ScreenWrapper statusBarColor={colors.white}>
@@ -24,10 +25,8 @@ const PersonDetails = ({ navigation, route }: NativeStackScreenProps<any>) => {
                 <ScrollView showsVerticalScrollIndicator={false}
                     contentContainerStyle={styles.scrollView}
                 >
-                    {person?.picture_id?.pictures ? <Image source={{ uri: person?.picture_id?.pictures?.[512] }}
-                        style={styles.profileImage} /> :
-                        <Feather name='user' size={width(15)} />}
-
+                    {person?.picture_id?.pictures ? <Image source={{ uri: person?.picture_id?.pictures?.['512'] }}
+                        style={styles.profileImage} /> : <Feather name='user' size={width(15)} />}
                     <Text style={styles.labelText}>Title : <Text style={styles.infoText}>{person?.name}</Text></Text>
                     <Text style={styles.labelText}>Email : <Text style={styles.infoText}>{person?.primary_email ?? 'None'}</Text></Text>
                     <View style={styles.phoneContainer}>
@@ -54,10 +53,10 @@ const PersonDetails = ({ navigation, route }: NativeStackScreenProps<any>) => {
                     </View>
                     <View style={styles.buttonContainer}>
                         <Button children='Show Activities' containerStyle={styles.button}
-                            onPress={() => navigation.navigate(ScreenNames.ACTIVITIES, { id: person?.id })}
+                            onPress={() => navigation.navigate(ScreenNames.ACTIVITIES, { id: person?.id ,index})}
                         />
                         <Button children='Show Deals' containerStyle={styles.button}
-                            onPress={() => navigation.navigate(ScreenNames.DEALS, { id: person?.id })}
+                            onPress={() => navigation.navigate(ScreenNames.DEALS, { id: person?.id ,index})}
                         />
                     </View>
                 </ScrollView>

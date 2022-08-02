@@ -1,34 +1,57 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../..';
 export interface PersonState {
-    persons: object[];
-    personActivities: object | null
-    personDeals: object | null
+    persons: Record<string, any>[];
+    personsActivities: object[]
+    personsDeals: object[]
 }
 const initialState: PersonState = {
     persons: [],
-    personActivities: null,
-    personDeals: null
+    personsActivities: [],
+    personsDeals: []
 };
 const personSlice = createSlice({
     name: 'persons',
     initialState,
     reducers: {
         setPersons: (state, action: PayloadAction<{ start: number, data: object[] }>) => {
-            if (action?.payload?.start == 0)
-                state.persons = action.payload?.data
+            const { data, start } = action.payload
+            if (start === 0)
+                state.persons = data
             else
-                state.persons = [...state.persons, ...action.payload?.data]
+                state.persons = [...state.persons, ...data]
+        },
+        setPersonsActivities: (state, action: PayloadAction<{ start: number, id: number, data: object[] }>) => {
+            const { id, data, start } = action.payload
+            let newPersons = [...state.persons]
+            const index = newPersons.findIndex(item => item?.id == id)
+            if (start === 0)
+                newPersons[index].activities = data
+
+            else
+                newPersons[index].activities = [...newPersons[index].activities, ...data]
+            state.persons = newPersons
+        },
+        setPersonsDeals: (state, action: PayloadAction<{ start: number, id: number, data: object[] }>) => {
+            const { id, data, start } = action.payload
+            let newPersons = [...state.persons]
+            const index = newPersons.findIndex(item => item?.id == id)
+            if (start === 0)
+                newPersons[index].deals = data
+
+            else
+                newPersons[index].deals = [...newPersons[index].deals, ...data]
+            state.persons = newPersons
         }
     }
 
 })
 // Actions
-export const { setPersons } = personSlice.actions
+export const { setPersons, setPersonsActivities,setPersonsDeals } = personSlice.actions
 // Reducer
 export const personSliceReducer = personSlice.reducer;
 // Selectors
 export const selectPersons = (state: RootState) => state.person.persons;
-export const selectPersonActivites = (state: RootState) => state.person.personActivities;
-export const selectPersonDeals = (state: RootState) => state.person.personDeals;
+export const selectPersonActivites = (state: RootState) => state.person.personsActivities;
+export const selectPersonDeals = (state: RootState) => state.person.personsDeals;
 

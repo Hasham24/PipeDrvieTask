@@ -1,21 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Text, View, FlatList, ActivityIndicator } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ScreenWrapper } from 'react-native-screen-wrapper';
 import { useGetActivityQuery } from '../../services/persons';
-import { Header } from '../../components';
+import { Header, CircleButton } from '../../components';
+import { selectPersons } from '../../store/slices/person';
+import { useSelector } from 'react-redux';
+import { EmptyListText, FooterListText } from '../../components/text';
+import { LIMIT } from '../../utils/constants';
 import colors from '../../utils/colors';
 import styles from './styles';
-import { EmptyListText } from '../../components/text';
 
 type ActivitiesScreenTypes = NativeStackScreenProps<{
     "ACTIVITIES": {
-        id: number
+        id: number,
+        index: number
     }
 }, "ACTIVITIES">
 const Activities = ({ navigation, route }: ActivitiesScreenTypes) => {
-    const { id } = route?.params
-    const { data, isLoading } = useGetActivityQuery({ id })
+    const [start, setStart] = useState(0)
+    const { id, index } = route?.params
+    const { data, isFetching } = useGetActivityQuery({ id, start })
+    const persons = useSelector(selectPersons)
     const _renderActivites = ({ item }) => {
         return (
             <View style={styles.activityContainer}>
@@ -31,13 +37,16 @@ const Activities = ({ navigation, route }: ActivitiesScreenTypes) => {
             <View style={styles.container}>
                 <Header title='Activities' onPress={navigation.goBack} />
                 <FlatList
-                    data={data?.data ?? []}
+                    data={persons[index]?.activities ?? []}
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={styles.contentContainer}
                     renderItem={_renderActivites}
                     keyExtractor={(_, index: number) => String(index)}
-                    ListFooterComponent={() => isLoading ? <ActivityIndicator size={'small'} color={colors.blue} /> : null}
-                    ListEmptyComponent={() => !isLoading ? <EmptyListText title={`Currently you have't any activity`} /> : null}
+                    ListEmptyComponent={() => !isFetching ? <EmptyListText title={`Currently you have't any activity`} /> : null}
+                    ListFooterComponent={() => isFetching ? <ActivityIndicator size={'small'} color={colors.blue} /> :
+                        (persons.length % LIMIT == 0 && data?.data?.length === LIMIT) ? <CircleButton onPress={() => setStart(start + LIMIT)} /> :
+                            <FooterListText title='No more activites' />
+                    }
                 />
             </View>
         </ScreenWrapper>

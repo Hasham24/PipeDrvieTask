@@ -6,25 +6,25 @@ import { Header } from '../../components';
 import { CircleButton } from '../../components';
 import { useGetPersonsQuery } from '../../services/persons';
 import { ScreenNames } from '../../routes';
+import { selectPersons } from '../../store/slices/person';
+import { LIMIT } from '../../utils/constants';
+import { FooterListText } from '../../components/text';
 import { width } from 'react-native-dimension';
-import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux';
 import Octicons from 'react-native-vector-icons/Octicons';
 import Feather from 'react-native-vector-icons/Feather';
 import colors from '../../utils/colors';
 import styles from './styles';
-import { selectPersons } from '../../store/slices/person';
-import { LIMIT } from '../../utils/constants';
-import { FooterListText } from '../../components/text';
 const Home = ({ navigation }: NativeStackScreenProps<any>) => {
     const [start, setStart] = useState(0);
     const { data, isFetching } = useGetPersonsQuery({ start })
     const persons = useSelector(selectPersons)
 
-    const _renderPersons = ({ item }) => {
+    const _renderPersons = ({ item ,index}) => {
         const { name, picture_id: { pictures } } = item
         return (
             <TouchableOpacity style={styles.listContainer} activeOpacity={0.9}
-                onPress={() => navigation.navigate(ScreenNames.PERSONDETAILS, { person: item })}
+                onPress={() => navigation.navigate(ScreenNames.PERSONDETAILS, { person: item ,index })}
             >
                 {pictures ? <Image source={{ uri: pictures?.['128'] }} style={styles.avatar} /> :
                     <Feather name='user' size={width(10)} />}
@@ -40,13 +40,13 @@ const Home = ({ navigation }: NativeStackScreenProps<any>) => {
             <View style={styles.container}>
                 <Header title='Persons List' isBack={false} />
                 <FlatList
-                    data={persons ?? []}
+                    data={persons}
                     showsVerticalScrollIndicator={false}
                     renderItem={_renderPersons}
                     contentContainerStyle={styles.contentContainer}
                     keyExtractor={(_, index: number) => String(index)}
                     ListFooterComponent={() => isFetching ? <ActivityIndicator size={'small'} color={colors.blue} /> :
-                        (persons.length % LIMIT == 0 && data?.data) ? <CircleButton onPress={() => setStart(start + LIMIT)} /> :
+                        (persons.length % LIMIT === 0 && data?.data?.length===LIMIT) ? <CircleButton onPress={() => setStart(start + LIMIT)} /> :
                             <FooterListText title='No more Persons' />
                     }
                 />

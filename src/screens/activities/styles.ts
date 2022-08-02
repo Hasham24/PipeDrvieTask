@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         borderColor: colors.iron,
         paddingHorizontal: width(2.5),
+        marginBottom:height(3),
     },
     labelText: {
         fontSize: width(3.5),
