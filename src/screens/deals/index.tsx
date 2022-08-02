@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { View, Text, FlatList, ActivityIndicator } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ScreenWrapper } from 'react-native-screen-wrapper';
-import { Header,CircleButton } from '../../components';
+import { Header, CircleButton } from '../../components';
 import { useGetDealsQuery } from '../../services/persons';
 import { selectPersons } from '../../store/slices/person';
 import { useSelector } from 'react-redux';
@@ -13,13 +13,13 @@ import styles from './styles';
 type DealsScreenTypes = NativeStackScreenProps<{
     "DEALS": {
         id: number
-        index:number
+        index: number
     }
 }, "DEALS">
 const Deals = ({ navigation, route }: DealsScreenTypes) => {
     const [start, setStart] = useState(0)
-    const { id,index } = route?.params
-    const { data, isFetching } = useGetDealsQuery({ id,start })
+    const { id, index } = route?.params
+    const { data, isFetching } = useGetDealsQuery({ id, start })
     const persons = useSelector(selectPersons)
     const _renderDeals = ({ item }) => {
         return (
@@ -43,9 +43,9 @@ const Deals = ({ navigation, route }: DealsScreenTypes) => {
                     keyExtractor={(item: null | object, index: number) => String(index)}
                     ListEmptyComponent={() => !isFetching ? <EmptyListText title={`Currently you have't any deal`} /> : null}
                     ListFooterComponent={() => isFetching ? <ActivityIndicator size={'small'} color={colors.blue} /> :
-                    (persons.length % LIMIT == 0 && data?.data?.length === LIMIT) ? <CircleButton onPress={() => setStart(start + LIMIT)} /> :
-                        <FooterListText title='No more activites' />
-                }
+                        (persons.length % LIMIT == 0 && data?.data?.length === LIMIT && persons.length) ? <CircleButton onPress={() => setStart(start + LIMIT)} /> :
+                            <FooterListText title='No more activites' />
+                    }
                 />
             </View>
         </ScreenWrapper>
