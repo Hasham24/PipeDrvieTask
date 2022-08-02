@@ -9,6 +9,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import colors from '../../utils/colors';
 import styles from './styles';
 const PersonDetsils = ({ navigation, route }: NativeStackScreenProps<any>) => {
+   
     const { person } = route?.params ?? {}
 
     return (
@@ -23,13 +24,13 @@ const PersonDetsils = ({ navigation, route }: NativeStackScreenProps<any>) => {
                         <Feather name='user' size={width(15)} />}
 
                     <Text style={styles.labelText}>Title : <Text style={styles.infoText}>{person?.name}</Text></Text>
-                    <Text style={styles.labelText}>Email : <Text style={styles.infoText}>{person?.primary_email??'None'}</Text></Text>
+                    <Text style={styles.labelText}>Email : <Text style={styles.infoText}>{person?.primary_email ?? 'None'}</Text></Text>
                     <View style={styles.phoneContainer}>
                         <Text style={styles.labelText}>Phone Number : </Text>
                         <TouchableOpacity style={styles.phoneContainer}
                             onPress={() => Linking.openURL(`tel:${person?.phone[0]?.value}`)}
                         >
-                            <Text style={styles.infoText}>{person?.phone[0]?.value!=''?person?.phone[0]?.value:'Not mentioned'}</Text>
+                            <Text style={styles.infoText}>{person?.phone[0]?.value != '' ? person?.phone[0]?.value : 'Not mentioned'}</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.countdetailsContainer}>
@@ -48,10 +49,10 @@ const PersonDetsils = ({ navigation, route }: NativeStackScreenProps<any>) => {
                     </View>
                     <View style={styles.buttonContainer}>
                         <Button children='Show Activities' containerStyle={styles.button}
-                            onPress={() => navigation.navigate(ScreenNames.ACTIVITIES,{id:person?.id})}
+                            onPress={() => navigation.navigate(ScreenNames.ACTIVITIES, { id: person?.id })}
                         />
                         <Button children='Show Deals' containerStyle={styles.button}
-                            onPress={() => navigation.navigate(ScreenNames.DEALS,{id:person?.id})}
+                            onPress={() => navigation.navigate(ScreenNames.DEALS, { id: person?.id })}
                         />
                     </View>
                 </ScrollView>

@@ -12,6 +12,7 @@ interface Props {
     touchableOpacityProps?: TouchableOpacityProps;
     textStyle?: TextStyle;
     textProps?: TextProps;
+    isBack?: boolean
 }
 
 const Header = ({
@@ -21,12 +22,15 @@ const Header = ({
     textStyle = {},
     textProps = {},
     touchableOpacityProps,
+    isBack = true
 }: Props) => {
     return (
         <View style={[styles.container, containerStyle]}>
-            <TouchableOpacity onPress={onPress}{...touchableOpacityProps}>
+            {isBack ? <TouchableOpacity onPress={onPress}{...touchableOpacityProps}>
                 <AntDesign name='arrowleft' size={width(7)} />
-            </TouchableOpacity>
+            </TouchableOpacity> :
+                <View style={styles.emptyContainer} />
+            }
             <Text style={[styles.text, textStyle]} {...textProps}>{title}</Text>
             <View style={styles.emptyContainer} />
         </View>

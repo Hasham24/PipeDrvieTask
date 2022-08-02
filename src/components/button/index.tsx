@@ -1,16 +1,12 @@
-import React, {useMemo} from 'react';
-import {
-  Text,
-  TextProps,
-  TextStyle,
-  TouchableOpacity,
-  TouchableOpacityProps,
-  ViewStyle,
-} from 'react-native';
+import React from 'react';
+import { Text, TextProps, TextStyle, TouchableOpacity, TouchableOpacityProps, ViewStyle } from 'react-native';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import { width } from 'react-native-dimension';
 import styles from './styles';
+import colors from '../../utils/colors';
 
 // Component Props
-interface Props {
+interface ButtonProps {
   onPress?: () => void;
   children: string;
   containerStyle?: ViewStyle;
@@ -18,15 +14,14 @@ interface Props {
   textStyle?: TextStyle;
   textProps?: TextProps;
 }
-
-const Button = ({
+export const Button = ({
   onPress,
   children = 'Button',
   containerStyle = {},
   touchableOpacityProps,
   textStyle = {},
   textProps = {},
-}: Props) => {
+}: ButtonProps) => {
   return (
     <TouchableOpacity
       style={[styles.container, containerStyle]}
@@ -38,5 +33,24 @@ const Button = ({
     </TouchableOpacity>
   );
 };
+// Circle Button
+interface CircleButtonProps {
+  onPress?: () => void;
+  containerStyle?: ViewStyle;
+  touchableOpacityProps?: TouchableOpacityProps;
+}
+export const CircleButton = ({
+  onPress,
+  touchableOpacityProps,
+  containerStyle
+}: CircleButtonProps) => {
+  return (
+    <TouchableOpacity
+      style={[styles.circleButton, containerStyle]}
+      onPress={onPress}
+      {...touchableOpacityProps}>
+      <AntDesign name='pluscircle' size={width(8)} color={colors.blue} />
+    </TouchableOpacity>
+  )
+}
 
-export default Button;

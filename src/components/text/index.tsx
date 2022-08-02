@@ -8,7 +8,7 @@ interface Props {
   textStyle?: TextStyle;
   textProps?: TextProps;
 }
-export const EmptyListText = ({ title = '', textStyle = {},  textProps = {},}: Props) => {
+export const EmptyListText = ({ title = '', textStyle = {}, textProps = {}, }: Props) => {
   return (
     <Text style={[styles.text, textStyle]} {...textProps}>{title}</Text>
   );

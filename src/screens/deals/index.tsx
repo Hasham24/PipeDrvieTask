@@ -7,8 +7,13 @@ import { useGetDealsQuery } from '../../services/persons';
 import { EmptyListText } from '../../components/text';
 import colors from '../../utils/colors';
 import styles from './styles';
-const Deals = ({ navigation, route }: NativeStackScreenProps<any>) => {
-    const id = route?.params?.id
+type DealsScreenTypes = NativeStackScreenProps<{
+    "DEALS": {
+        id: number
+    }
+}, "DEALS">
+const Deals = ({ navigation, route }: DealsScreenTypes) => {
+    const { id } = route?.params
     const { data, isLoading } = useGetDealsQuery({ id })
     const _renderDeals = ({ item }) => {
         return (

@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { userSliceReducer } from './slices/user';
+import { personSliceReducer } from './slices/person';
 import { persons } from '../services/persons'
 export const store = configureStore({
   reducer: {
-    user: userSliceReducer,
+    person: personSliceReducer,
      [persons.reducerPath]: persons.reducer,
   },
   middleware: (getDefaultMiddleware) =>
