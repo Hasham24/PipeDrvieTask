@@ -2,13 +2,9 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../..';
 export interface PersonState {
     persons: Record<string, any>[];
-    personsActivities: object[]
-    personsDeals: object[]
 }
 const initialState: PersonState = {
     persons: [],
-    personsActivities: [],
-    personsDeals: []
 };
 const personSlice = createSlice({
     name: 'persons',
@@ -55,6 +51,4 @@ export const { setPersons, setPersonsActivities, setPersonsDeals, removePerson }
 export const personSliceReducer = personSlice.reducer;
 // Selectors
 export const selectPersons = (state: RootState) => state.person.persons;
-export const selectPersonActivites = (state: RootState) => state.person.personsActivities;
-export const selectPersonDeals = (state: RootState) => state.person.personsDeals;
 
